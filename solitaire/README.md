@@ -1,70 +1,104 @@
-# Getting Started with Create React App
+# Klondike Solitaire with AI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Solitaire game that can actually teach you how to play better! Built with React and includes an AI that explains its thinking.
 
-## Available Scripts
+## What's Cool About This
 
-In the project directory, you can run:
+- **The Classic Game** - Standard Klondike Solitaire that you know and love
+- **Drag & Drop Cards** - Just grab and move them around (uses react-dnd)
+- **AI That Explains Itself** - This is the fun part:
+  - Highlights which card to move (purple) and where to put it (green/amber)
+  - Tells you *why* in plain English
+  - Can actually make the move for you if you want
+  - Shows you its whole decision-making process in the debug console
+- **Live Debug Console** - Watch what's happening under the hood in real-time
+- **Works on Any Screen** - Automatically shrinks to fit your display
+- **Victory Screen** - Pops up when you win!
 
-### `npm start`
+## How to Play
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### The Goal
+Get all 52 cards into the four foundation piles, going from Ace up to King in each suit.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### The Rules
+- **The 7 columns (tableau)**: Stack cards going down, alternating red and black
+- **The 4 foundations**: Build up by suit (hearts with hearts, etc.) starting with Aces
+- **The draw pile (stock)**: Click to flip over a new card; when empty, it recycles
+- **Empty spots**: Only Kings can start a new column
 
-### `npm test`
+### What You Can Do
+- **Drag cards around** - Move them between columns or to foundations
+- **Click the stock pile** - Draw a new card
+- **"Suggest Move"** - Stuck? Ask the AI what it would do
+- **"Do Suggested Move"** - Let the AI actually make the move
+- **"Clear Highlight"** - Turn off the glowing hints
+- **"New Game"** - Shuffle up and start over
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Running It
 
-### `npm run build`
+### First Time Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Start Playing
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Make a Production Build
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This creates an optimized version in the `build/` folder that you can deploy anywhere.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## How It's Organized
 
-## Learn More
+```
+src/
+├── components/        # All the React components
+│   ├── Card.jsx      # A single card (can drag it)
+│   ├── Tableau.jsx   # One of the 7 main columns
+│   ├── Foundations.jsx # The 4 foundation piles
+│   ├── StockAndWaste.jsx # Draw pile area
+│   ├── ControlsBar.jsx # Buttons and AI hints
+│   ├── GameBoard.jsx # Puts everything together
+│   └── DebugMenu.jsx # The debug panel
+├── hooks/
+│   ├── useGame.js    # Where all the game logic lives
+│   └── useScaleToFit.js # Makes it fit your screen
+├── logic/
+│   ├── setup.js      # Shuffles and deals cards
+│   ├── rules.js      # What moves are legal
+│   └── ai.js         # The AI brain
+└── utils/
+    └── debug.js      # Logging system
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## How the AI Works
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+It scores every possible move and picks the best one. Here's what it likes:
 
-### Code Splitting
+- **Moving to foundations** (50+ points) - This is literally the goal
+- **Flipping face-down cards** (25-35 points) - Reveals more options
+- **Clearing columns** (12-22 points) - Makes room for Kings
+- **Moving card stacks** (10-25 points) - Organizes things better
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Open the debug console (click the bug button) to see:
+- Every move the AI considered
+- How it scored each one and why
+- A "decision tree" showing what could happen next
+- Which move it picked and the reasoning
 
-### Analyzing the Bundle Size
+## Built With
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **React 18** - The UI framework
+- **react-dnd** - Handles drag and drop
+- **Tailwind CSS** - Makes it look nice
+- **Create React App** - Gets everything set up
