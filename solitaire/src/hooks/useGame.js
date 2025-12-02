@@ -43,21 +43,7 @@ export function GameProvider({ children }) {
         }));
     };
 
-    // foundations updates are now handled via unified setGameState in moveToFoundation/moveWasteToFoundation
-
-    const setStock = (updater) => {
-        setGameState((prev) => ({
-            ...prev,
-            stock: typeof updater === 'function' ? updater(prev.stock) : updater
-        }));
-    };
-
-    const setWaste = (updater) => {
-        setGameState((prev) => ({
-            ...prev,
-            waste: typeof updater === 'function' ? updater(prev.waste) : updater
-        }));
-    };
+    // foundations/stock/waste updates are handled via unified setGameState in action functions
 
     /**
      * Start a completely new game.
