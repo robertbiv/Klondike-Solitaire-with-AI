@@ -1,4 +1,15 @@
-// Foundation piles (build up A->K by suit). Shows amber ring when suggested.
+/**
+ * Foundation piles: the four target stacks where you build Ace→King by suit.
+ * 
+ * Visual feedback:
+ * - Green background when hovering with a valid card
+ * - Red background when hovering with invalid card
+ * - Amber ring when AI suggests placing here
+ * 
+ * Drop rules:
+ * - Only accepts top cards from tableau or waste
+ * - Must follow foundation building rules (same suit, ascending)
+ */
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from '../dndTypes.js';

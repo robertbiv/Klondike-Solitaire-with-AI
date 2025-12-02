@@ -1,7 +1,20 @@
 import { useEffect, useState } from 'react';
 
-// Hook that computes a scale factor so the referenced element fits within the viewport.
-// Applies padding around edges so content does not touch borders.
+/**
+ * Custom hook to scale content to fit the viewport.
+ * 
+ * How it works:
+ * 1. Measures the element's natural size (offsetWidth/Height)
+ * 2. Compares to available viewport space (minus padding and reserved areas)
+ * 3. Returns a scale factor (<= maxScale) to shrink content if needed
+ * 4. Recalculates on window resize for responsive behavior
+ * 
+ * Options:
+ * - padding: space to leave around edges (default 32px)
+ * - maxScale: never scale larger than this (default 1 = no enlargement)
+ * - reservedRight: subtract this width (for sidebars, etc.)
+ * - reservedBottom: subtract this height (for footers, etc.)
+ */
 export default function useScaleToFit(ref, { padding = 32, maxScale = 1, reservedRight = 0, reservedBottom = 0 } = {}) {
   const [scale, setScale] = useState(1);
 

@@ -1,22 +1,31 @@
 /**
- * AI MOVE SUGGESTION LOGIC
+ * AI move suggestion (readable and fast, not a deep solver)
  *
- * Overview:
- * 1. enumerateMoves(state): produce legal atomic moves (foundation, tableau, waste, draw).
- * 2. Extended enumeration now includes multi-card stack moves (tableau-stack-to-tableau).
- * 3. scoreMove(): heuristic scoring favouring foundation progress, uncovering face-down cards,
- *    freeing columns, and moving longer valid sequences.
- * 4. suggestBestMove(): choose highest-score candidate.
- * 5. explainMove(): user readable feedback for UI hints.
- * 6. getSuggestion(): convenience wrapper returning { move, message }.
- * 7. (Debug) Decision tree: shallow lookahead with per-reason weights logged.
+ * What happens step by step:
+ * 1) enumerateMoves(state)
+ *    - List every legal move the player could take right now.
+ *    - Includes: tableau→foundation, waste→foundation, tableau→tableau (single),
+ *      tableau stack→tableau (multi-card), waste→tableau, draw, recycle.
  *
- * Stack Move Enumeration:
- * - For each column and start index we call canDragFromTableau to ensure the run
- *   from startIdx is a valid descending alternating sequence (all face-up).
- * - Only the top card of that run is tested for destination legality (Klondike rule).
- * - We record length so scoring can reward repositioning longer sequences.
- * - Uncovering a face-down card below the moved stack yields a strong bonus.
+ * 2) scoreMove(move, state)
+ *    - Assigns a numeric score to a move with a short explanation.
+ *    - Prefers: building foundations, uncovering face-down cards, freeing columns,
+ *      and placing longer valid sequences.
+ *    - Returns a breakdown so you can see where the score came from.
+ *
+ * 3) suggestBestMove(state)
+ *    - Scores all moves and picks the highest score (greedy choice).
+ *    - Also logs a tiny “decision tree” for learning/debugging: current choices
+ *      and one step of lookahead, with a discounted rollup.
+ *
+ * 4) explainMove(move, state)
+ *    - Turns the chosen move into a friendly sentence for the UI.
+ *
+ * 5) getSuggestion(state)
+ *    - Convenience wrapper returning { move, message } used by the app.
+ *
+ * Note: This AI favors clarity over depth. The decision tree is for
+ * understanding, not for changing the final pick.
  */
 // Heuristic-based move suggestion: fast, readable, no deep search.
 import { 
@@ -135,10 +144,16 @@ function simulateApplyMove(state, move) {
   }
 }
 
-// Move object shape:
-// { type: 'tableau-to-foundation'|'waste-to-foundation'|'tableau-to-tableau'|'waste-to-tableau'|'draw-stock'|'recycle-waste',
-//   fromColumn, fromIndex, toColumn, foundationIndex, score, reason }
+// Move object shape (fields vary by type):
+// {
+//   type: 'tableau-to-foundation'|'waste-to-foundation'|'tableau-to-tableau'|'tableau-stack-to-tableau'|'waste-to-tableau'|'draw-stock'|'recycle-waste',
+//   fromColumn?, fromIndex?, toColumn?, foundationIndex?, length?
+// }
 
+/**
+ * List all legal moves from the current position.
+ * Keeps generation simple and explicit by category.
+ */
 export function enumerateMoves(state) {
   const moves = [];
   const { tableaus, foundations, waste, stock } = state;
@@ -236,9 +251,13 @@ export function enumerateMoves(state) {
   return moves;
 }
 
-// Heuristic scoring for prioritization
-// Higher is better
-// Give a move a numeric score + reasons list (simple heuristic)
+/**
+ * Heuristic scoring for prioritization (higher is better).
+ * Returns:
+ * - score: number (total weight)
+ * - reason: string summary
+ * - parts: [{ delta, reason }] detailed breakdown
+ */
 export function scoreMove(move, state) {
   const { tableaus, waste, foundations } = state;
   let score = 0;
@@ -310,7 +329,7 @@ export function scoreMove(move, state) {
 
   // Bonus if move leads closer to win (simple: more foundation cards)
   const foundationCount = foundations.reduce((sum, f) => sum + f.length, 0);
-  add(foundationCount * 0.2, 'Foundation progress weight');
+  add(foundationCount * 0.2, 'Foundation progress weight'); // small global nudge
 
   return { score, reason: reasonParts.map(r => r.reason).join('; '), parts: reasonParts };
 }
@@ -363,6 +382,9 @@ export function suggestBestMove(state) {
 }
 
 // Build a small decision tree for debugging: children are best few moves from next state
+/**
+ * Small helper to keep decision tree nodes compact in logs.
+ */
 function summarizeMove(m) {
   return {
     type: m.type,
@@ -376,6 +398,12 @@ function summarizeMove(m) {
   };
 }
 
+/**
+ * Build a tiny decision tree for learning/debugging.
+ * - depth: how many plies to explore (2 = current + one lookahead)
+ * - breadth: how many top moves to expand at each level
+ * - rollup: immediate score + discounted best child score
+ */
 function buildDecisionTree(state, depth, breadth) {
   const moves = enumerateMoves(state).map(m => ({ ...m, ...scoreMove(m, state) }));
   moves.sort((a, b) => b.score - a.score);

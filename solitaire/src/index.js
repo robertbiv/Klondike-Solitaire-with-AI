@@ -1,3 +1,12 @@
+/**
+ * Application entry point.
+ * 
+ * Renders the root App component into the DOM.
+ * React 18's createRoot enables concurrent features.
+ * 
+ * Note: DndProvider is actually set up in App.jsx, not here.
+ * This file just bootstraps React and loads global styles.
+ */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";

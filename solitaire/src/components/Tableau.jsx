@@ -1,4 +1,15 @@
-// Tableau column: accepts legal drops. highlightClass pulses for suggested destination.
+/**
+ * Tableau column: one of the seven main play columns.
+ * 
+ * Features:
+ * - Accepts card drops following Klondike rules (alternating colors, descending)
+ * - Green ring when AI suggests this as destination
+ * - Dynamically adjusts card spacing to prevent vertical overflow
+ * - Cards stack with visible overlap so you can see all ranks
+ * 
+ * The vertical spacing (cardOffset) shrinks automatically if the column
+ * gets too tall for the viewport.
+ */
 import { useCallback, useMemo, useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { ItemTypes } from "../dndTypes.js";

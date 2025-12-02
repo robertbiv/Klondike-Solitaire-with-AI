@@ -1,4 +1,15 @@
-// Debug menu for testing all game functions and viewing AI process
+/**
+ * Debug console for development and learning.
+ * 
+ * Features:
+ * - Shows live log of all game actions (moves, draws, AI reasoning)
+ * - Test Win Screen button to preview win modal
+ * - Clear Logs to reset the console
+ * - Subscribes to debugLog events from game logic and AI
+ * - Right-side sidebar (384px wide) with dark terminal aesthetic
+ * 
+ * Toggle button is positioned bottom-left to avoid covering cards.
+ */
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../hooks/useGame.js';
 import { setDebugLogger } from '../utils/debug.js';

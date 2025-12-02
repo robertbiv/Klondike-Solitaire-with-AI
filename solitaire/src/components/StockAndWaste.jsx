@@ -1,4 +1,17 @@
-// Stock (draw pile) and Waste (discard pile). Click stock to draw or recycle.
+/**
+ * Stock and Waste piles side by side.
+ * 
+ * Stock (left):
+ * - Face-down draw pile
+ * - Click to draw the next card to waste
+ * - When empty, click to recycle waste back to stock
+ * - Green ring when AI suggests drawing
+ * 
+ * Waste (right):
+ * - Face-up discard pile from stock
+ * - Only the top card is visible and draggable
+ * - Can be moved to tableau or foundation
+ */
 import React from 'react';
 import { useGame } from '../hooks/useGame.js';
 import Card from './Card.jsx';

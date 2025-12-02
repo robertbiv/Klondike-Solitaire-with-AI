@@ -1,5 +1,8 @@
-// Centralized debug logging utilities used by hooks and logic
-// Components can set a logger via setDebugLogger; others call debugLog.
+// Debug logging shared by components (UI) and game/AI logic.
+// How to use:
+// - UI: call setDebugLogger(fn) once to receive logs in your console/panel.
+// - Logic: call debugLog(message, data) anywhere to publish an event.
+// A short-window de-dupe helps filter duplicate logs in development.
 
 let debugLogCallback = null;
 let __lastLogSig = null;
@@ -13,10 +16,18 @@ const makeSig = (message, data) => {
     }
 };
 
+/**
+ * Register a single log handler used by the Debug UI.
+ * Typically set once in a component with useEffect, and cleaned on unmount.
+ */
 export function setDebugLogger(callback) {
     debugLogCallback = callback;
 }
 
+/**
+ * Publish a debug event to the registered handler.
+ * Safe to call from anywhere (components, hooks, or pure logic files).
+ */
 export function debugLog(message, data) {
     const now = Date.now();
     const sig = makeSig(message, data);

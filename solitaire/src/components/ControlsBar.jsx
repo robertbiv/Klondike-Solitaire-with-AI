@@ -1,4 +1,16 @@
-// Controls: suggest move, apply suggested move, clear highlight, new game. Hint stored locally.
+/**
+ * Game controls bar with buttons and AI hint display.
+ * 
+ * Buttons:
+ * - Suggest Move: asks AI for best move and highlights it
+ * - Do Suggested Move: executes the AI suggestion automatically
+ * - Clear Highlight: removes suggestion highlight (enabled when suggestion exists)
+ * - New Game: shuffles and starts fresh
+ * 
+ * Hint message:
+ * - Shows AI's friendly explanation (which card to move where)
+ * - Auto-clears when suggestion is cleared or applied
+ */
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../hooks/useGame.js';
 

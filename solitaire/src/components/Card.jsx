@@ -1,4 +1,16 @@
-// Card component using react-dnd. Drag item encodes origin for rule checks.
+/**
+ * Individual card component with drag-and-drop support.
+ * 
+ * Features:
+ * - Renders card image (front if faceUp, back if face-down)
+ * - Draggable only if face-up (canDrag checks rules)
+ * - Purple ring when AI suggests moving this card (source highlight)
+ * - Carries metadata (fromColumn, fromIndex, or fromWaste) for drop validation
+ * 
+ * Card images:
+ * - Expected in /public/cards/ as {rank}_of_{suit}.svg
+ * - Falls back to back.png on error
+ */
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from "../dndTypes.js";
 import { canDragCard } from "../logic/rules.js";

@@ -1,5 +1,20 @@
 // @ts-nocheck
-// Main game state hook/provider. Components call useGame() for shared state.
+/**
+ * Central game state management using React Context.
+ * 
+ * Architecture:
+ * - GameProvider wraps the app and holds all game state (tableaus, foundations, stock, waste)
+ * - Components call useGame() to access state and action functions
+ * - All move logic lives here (drag-drop just calls these functions)
+ * - Debug logging is wired through debugLog calls
+ * 
+ * Key actions:
+ * - moveCards: tableau to tableau
+ * - drawOne: stock to waste (or recycle)
+ * - moveWasteToTableau/moveToFoundation: waste card placement
+ * - applySuggestedMove: execute AI recommendation
+ * - suggestMove: ask AI for best move
+ */
 import React, { createContext, useContext, useState } from 'react';
 import { initGame } from '../logic/setup.js';
 import { 
@@ -44,13 +59,23 @@ export function GameProvider({ children }) {
         }));
     };
 
+    /**
+     * Start a completely new game.
+     * Re-shuffles the deck and deals fresh tableau/stock/foundation.
+     */
     const resetGame = () => {
-        // Re-shuffle and rebuild everything
         debugLog('🔄 New game started');
         setGameState(initGame());
         setCurrentSuggestion(null); // clear any old hint
     };
 
+    /**
+     * Move one or more cards from one tableau column to another.
+     * - fromColumn: source tableau index
+     * - fromIndex: starting position (moves this card + all below)
+     * - toColumn: destination tableau index
+     * - opts.silent: skip debug logging (used internally by AI)
+     */
     function moveCards(fromColumn, fromIndex, toColumn, opts = {}) {
         const { silent = false } = opts;
         // Clear any existing suggestion highlight after a move attempt
@@ -90,7 +115,11 @@ export function GameProvider({ children }) {
         });
     }
 
-    // Draw a card from stock OR recycle waste if stock empty
+    /**
+     * Draw the next card from stock to waste.
+     * If stock is empty, recycles waste back to stock (face-down).
+     * opts.silent: skip debug logging
+     */
     function drawOne(opts = {}) {
         const { silent = false } = opts;
         // Clear suggestion highlight when user draws or recycles
@@ -193,7 +222,11 @@ export function GameProvider({ children }) {
         });
     }
 
-    // Apply the currently suggested move programmatically
+    /**
+     * Execute the AI's suggested move automatically.
+     * Translates the suggestion object into the correct action call.
+     * Used by the "Do Suggested Move" button.
+     */
     function applySuggestedMove() {
         const m = currentSuggestion;
         if (!m) return false;

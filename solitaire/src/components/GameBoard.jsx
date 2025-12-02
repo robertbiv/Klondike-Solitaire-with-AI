@@ -1,4 +1,17 @@
-// Board layout tying everything together. Keeps render simple.
+/**
+ * Main game board layout and orchestration.
+ * 
+ * Layout structure:
+ * - Top row: Stock/Waste and Foundation piles
+ * - Middle: Control buttons with AI hint
+ * - Bottom: Seven tableau columns
+ * 
+ * Features:
+ * - Auto-scales to fit viewport (accounts for debug sidebar width)
+ * - Win modal pops up when all cards reach foundations
+ * - Debug console toggle button (bottom-left)
+ * - Responsive margin when debug panel is open
+ */
 import React, { useEffect, useState, useRef } from 'react';
 import Tableau from './Tableau.jsx';
 import { useGame } from '../hooks/useGame.js';
