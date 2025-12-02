@@ -19,11 +19,11 @@ export default function StockAndWaste() {
                 <div className="mb-1 text-sm text-slate-600">Stock</div>
                 <div onClick={drawOne} style={{ cursor: 'pointer' }} className={`transition ${stockHighlightClass}`}>
                     {stockCount > 0 ? (
-                        <div className="w-20 h-28 rounded-md border">
-                            <img src={`${process.env.PUBLIC_URL || ''}/cards/back.png`} alt="stock" className="w-20 h-28" />
+                        <div className="w-16 sm:w-18 md:w-20 lg:w-24 xl:w-28 h-24 sm:h-26 md:h-28 rounded-md border">
+                            <img src={`${process.env.PUBLIC_URL || ''}/cards/back.png`} alt="stock" className="w-full h-full object-cover" />
                         </div>
                     ) : (
-                        <div className="w-20 h-28 rounded-md border bg-slate-100 flex items-center justify-center">Empty</div>
+                        <div className="w-16 sm:w-18 md:w-20 lg:w-24 xl:w-28 h-24 sm:h-26 md:h-28 rounded-md border bg-slate-100 flex items-center justify-center">Empty</div>
                     )}
                 </div>
             </div>
@@ -33,7 +33,7 @@ export default function StockAndWaste() {
                     {wasteTop ? (
                         <Card card={wasteTop} colIndex={'waste'} cardIndex={waste.length - 1} />
                     ) : (
-                        <div className="w-20 h-28 rounded-md border bg-slate-100 flex items-center justify-center">Empty</div>
+                        <div className="w-16 sm:w-18 md:w-20 lg:w-24 xl:w-28 h-24 sm:h-26 md:h-28 rounded-md border bg-slate-100 flex items-center justify-center">Empty</div>
                     )}
                 </div>
             </div>

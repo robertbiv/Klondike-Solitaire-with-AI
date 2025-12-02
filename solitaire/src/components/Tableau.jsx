@@ -1,5 +1,5 @@
 // Tableau column: accepts legal drops. highlightClass pulses for suggested destination.
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { ItemTypes } from "../dndTypes.js";
 import Card from "./Card.jsx"; 
@@ -38,12 +38,39 @@ export default function Tableau({ cards, colIndex }) {
 
     const highlightClass = isSuggestedDestination ? 'ring-4 ring-emerald-400 animate-pulse' : ''; // green ring = AI target
 
+    // Dynamic vertical spacing to prevent overflow
+    const [cardOffset, setCardOffset] = useState(18);
+
+    useEffect(() => {
+        // Calculate available height for tableau
+        const viewportHeight = window.innerHeight;
+        const availableHeight = viewportHeight * 0.7; // Use 70% of viewport for tableau area
+        const cardHeight = 120; // Base card height in pixels
+        
+        if (cards.length > 0) {
+            // Calculate needed height with full 18px offset
+            const fullHeight = cardHeight + (cards.length - 1) * 18;
+            
+            // If it exceeds available space, compress the offset
+            if (fullHeight > availableHeight) {
+                const newOffset = Math.max(10, (availableHeight - cardHeight) / (cards.length - 1));
+                setCardOffset(Math.floor(newOffset));
+            } else {
+                setCardOffset(18); // Reset to default when there's space
+            }
+        }
+    }, [cards.length]);
+
+    // Calculate dynamic height based on current offset
+    const columnHeight = cards.length > 0 ? `${cards.length * cardOffset + 120}px` : '6rem';
+
     return (
         <div
             ref={drop}
-            className={`relative w-20 md:w-24 lg:w-28 min-h-[6rem] rounded-md border-2 ${isOver && canDrop ? 'border-green-500' : 'border-transparent'} ${highlightClass}`}>
+            style={{ minHeight: columnHeight }}
+            className={`relative w-16 sm:w-18 md:w-20 lg:w-24 xl:w-28 rounded-md border-2 ${isOver && canDrop ? 'border-green-500' : 'border-transparent'} ${highlightClass}`}>
             {cards.map((c, i) => (
-                <Card key={c.id} card={c} colIndex={colIndex} cardIndex={i} style={{ top: `${i * 20}px`, zIndex: i }} />
+                <Card key={c.id} card={c} colIndex={colIndex} cardIndex={i} style={{ top: `${i * cardOffset}px`, zIndex: i }} />
             ))}
         </div>
     );

@@ -43,7 +43,7 @@ function FoundationPile({ cards, foundationIndex }) {
     return (
         <div
             ref={drop}
-            className={`relative w-20 h-28 rounded border-2 border-dashed border-slate-300 flex items-center justify-center ${backgroundColor} ${highlightClass}`}
+            className={`relative w-16 sm:w-18 md:w-20 lg:w-24 xl:w-28 h-24 sm:h-26 md:h-28 rounded border-2 border-dashed border-slate-300 flex items-center justify-center ${backgroundColor} ${highlightClass}`}
         >
             {topCard ? <Card card={topCard} isDraggable={false} /> : <span className="text-slate-400 text-xs">A</span>}
         </div>

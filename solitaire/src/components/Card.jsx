@@ -53,7 +53,7 @@ export default function Card({ card, colIndex, cardIndex, style, onClick, isDrag
             style={style}
             className={`cursor-grab active:cursor-grabbing ${isDragging ? 'opacity-50' : '' } ${sourceHighlight}`}>
             <img
-                className="w-16 md:w-20 lg:w-24"
+                className="w-14 sm:w-16 md:w-18 lg:w-20 xl:w-24"
                 src={src}
                 alt={card ? `${card.rank} of ${card.suit}` : 'card'}
                 onError={(e) => { e.currentTarget.src = backImage; }}

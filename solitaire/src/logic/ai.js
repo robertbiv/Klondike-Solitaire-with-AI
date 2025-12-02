@@ -224,27 +224,47 @@ export function suggestBestMove(state) {
   return best;
 }
 
-export function explainMove(move) {
+export function explainMove(move, state) {
   if (!move) return 'No move suggested.';
+  
+  // Helper to get card description with color hint
+  const describeCard = (card) => {
+    if (!card) return 'card';
+    const color = ['hearts', 'diamonds'].includes(card.suit?.toLowerCase()) ? 'red' : 'black';
+    return `${color} ${card.rank}`;
+  };
+
+  const { tableaus, waste } = state || {};
+  
   switch (move.type) {
-    case 'tableau-to-foundation':
-      return `Move tableau column ${move.fromColumn + 1} top card to foundation ${move.foundationIndex + 1}: ${move.reason}`;
-    case 'waste-to-foundation':
-      return `Move waste top card to foundation ${move.foundationIndex + 1}: ${move.reason}`;
-    case 'tableau-to-tableau':
-      return `Move top card from column ${move.fromColumn + 1} to column ${move.toColumn + 1}: ${move.reason}`;
-    case 'tableau-stack-to-tableau':
-      return `Move stack (length ${move.length}) from column ${move.fromColumn + 1} to column ${move.toColumn + 1}: ${move.reason}`;
-    case 'waste-to-tableau':
-      return `Move waste top card to column ${move.toColumn + 1}: ${move.reason}`;
+    case 'tableau-to-foundation': {
+      const card = tableaus?.[move.fromColumn]?.[move.fromIndex];
+      return `Move ${describeCard(card)} from column ${move.fromColumn + 1} to foundation pile (building Ace to King by suit).`;
+    }
+    case 'waste-to-foundation': {
+      const card = waste?.[waste.length - 1];
+      return `Move ${describeCard(card)} from waste pile to foundation (building Ace to King by suit).`;
+    }
+    case 'tableau-to-tableau': {
+      const card = tableaus?.[move.fromColumn]?.[tableaus[move.fromColumn].length - 1];
+      return `Move ${describeCard(card)} from column ${move.fromColumn + 1} to column ${move.toColumn + 1} (alternate red/black, descending).`;
+    }
+    case 'tableau-stack-to-tableau': {
+      const startCard = tableaus?.[move.fromColumn]?.[move.fromIndex];
+      return `Move ${move.length}-card stack (starting with ${describeCard(startCard)}) from column ${move.fromColumn + 1} to column ${move.toColumn + 1} (alternate colors).`;
+    }
+    case 'waste-to-tableau': {
+      const card = waste?.[waste.length - 1];
+      return `Move ${describeCard(card)} from waste to column ${move.toColumn + 1} (alternate red/black, descending).`;
+    }
     case 'draw-stock':
-      return `Draw from stock: ${move.reason}`;
+      return `Click the stock pile to draw a new card.`;
     case 'recycle-waste':
-      return `Recycle waste back to stock: ${move.reason}`;
+      return `Click the stock pile to recycle waste cards back to stock.`;
     case 'game-won':
-      return `Game won: ${move.reason}`;
+      return `Congratulations! All cards are in the foundation piles!`;
     case 'no-move':
-      return `No moves: ${move.reason}`;
+      return `No legal moves available. Try drawing from stock or starting a new game.`;
     default:
       return `Unknown move type.`;
   }
@@ -252,5 +272,5 @@ export function explainMove(move) {
 
 export default function getSuggestion(state) {
   const move = suggestBestMove(state);
-  return { move, message: explainMove(move) };
+  return { move, message: explainMove(move, state) };
 }
