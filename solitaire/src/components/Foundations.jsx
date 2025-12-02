@@ -1,14 +1,15 @@
 /**
- * Foundation piles: the four target stacks where you build Ace→King by suit.
+ * The 4 foundation piles - this is where you're trying to get all the cards
+ * Build from Ace up to King in each suit
  * 
- * Visual feedback:
- * - Green background when hovering with a valid card
- * - Red background when hovering with invalid card
- * - Amber ring when AI suggests placing here
+ * Colors mean stuff:
+ * - Green = "yeah, you can drop that here"
+ * - Red = "nope, that won't work"
+ * - Glowing amber ring = AI thinks you should put a card here
  * 
- * Drop rules:
- * - Only accepts top cards from tableau or waste
- * - Must follow foundation building rules (same suit, ascending)
+ * Rules:
+ * - Can only drop the top card from a column or the waste pile
+ * - Has to be the right suit and the next number up
  */
 import React from 'react';
 import { useDrop } from 'react-dnd';

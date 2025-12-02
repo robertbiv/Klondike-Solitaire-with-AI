@@ -1,19 +1,19 @@
 // @ts-nocheck
 /**
- * Central game state management using React Context.
+ * Main game state - everything happens here
  * 
- * Architecture:
- * - GameProvider wraps the app and holds all game state (tableaus, foundations, stock, waste)
- * - Components call useGame() to access state and action functions
- * - All move logic lives here (drag-drop just calls these functions)
- * - Debug logging is wired through debugLog calls
+ * How it's organized:
+ * - GameProvider wraps the whole app and keeps track of all the cards
+ * - Any component can call useGame() to get the current state and functions
+ * - All the "move this card here" logic lives in this file
+ * - When stuff happens, it logs to the debug console
  * 
- * Key actions:
- * - moveCards: tableau to tableau
- * - drawOne: stock to waste (or recycle)
- * - moveWasteToTableau/moveToFoundation: waste card placement
- * - applySuggestedMove: execute AI recommendation
- * - suggestMove: ask AI for best move
+ * Main functions you can call:
+ * - moveCards: move card(s) between the tableau columns
+ * - drawOne: draw from stock pile (or recycle if empty)
+ * - moveWasteToTableau/moveToFoundation: move the waste card somewhere
+ * - applySuggestedMove: let the AI make the move it suggested
+ * - suggestMove: ask the AI what to do next
  */
 import React, { createContext, useContext, useState } from 'react';
 import { initGame } from '../logic/setup.js';

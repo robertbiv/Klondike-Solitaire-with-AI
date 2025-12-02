@@ -1,14 +1,15 @@
 /**
- * App root component.
+ * The main App component - everything starts here
  * 
- * Sets up the necessary context providers:
- * - GameProvider: shares game state across all components
+ * Sets up:
+ * - GameProvider so all the components can talk to the game state
  * 
  * Layout:
- * - Full-screen dark background (slate-900)
- * - Centered game board with scrolling if needed
+ * - Dark background (looks nicer than plain white)
+ * - Game board in the center
+ * - Scrolls if your screen is too small
  * 
- * Note: DndProvider is set up in index.js (wraps entire app)
+ * The drag-and-drop wrapper (DndProvider) is in index.js
  */
 import { GameProvider } from './hooks/useGame.js';
 import GameBoard from './components/GameBoard.jsx';

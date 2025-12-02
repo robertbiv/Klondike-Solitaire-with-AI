@@ -1,16 +1,16 @@
 /**
- * Main game board layout and orchestration.
+ * The main game board - puts everything together
  * 
- * Layout structure:
- * - Top row: Stock/Waste and Foundation piles
- * - Middle: Control buttons with AI hint
- * - Bottom: Seven tableau columns
+ * Layout from top to bottom:
+ * - Stock/Waste piles and the 4 foundation piles
+ * - Control buttons and AI hint message
+ * - The 7 tableau columns
  * 
- * Features:
- * - Auto-scales to fit viewport (accounts for debug sidebar width)
- * - Win modal pops up when all cards reach foundations
- * - Debug console toggle button (bottom-left)
- * - Responsive margin when debug panel is open
+ * Cool stuff it does:
+ * - Shrinks to fit your screen (even accounts for the debug panel)
+ * - Shows a "You Won!" popup when you finish
+ * - Debug button in the bottom-left corner
+ * - Adjusts spacing when the debug panel is open
  */
 import React, { useEffect, useState, useRef } from 'react';
 import Tableau from './Tableau.jsx';

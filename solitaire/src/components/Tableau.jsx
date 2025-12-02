@@ -1,14 +1,13 @@
 /**
- * Tableau column: one of the seven main play columns.
+ * One of the 7 main columns where most of the game happens
  * 
- * Features:
- * - Accepts card drops following Klondike rules (alternating colors, descending)
- * - Green ring when AI suggests this as destination
- * - Dynamically adjusts card spacing to prevent vertical overflow
- * - Cards stack with visible overlap so you can see all ranks
+ * What it does:
+ * - Lets you drop cards if they follow the rules (alternating colors, going down)
+ * - Glows green when the AI suggests dropping something here
+ * - Cards overlap a bit so you can see what you have
+ * - Automatically squishes cards closer together if the pile gets too tall
  * 
- * The vertical spacing (cardOffset) shrinks automatically if the column
- * gets too tall for the viewport.
+ * The spacing between cards shrinks if things don't fit on your screen
  */
 import { useCallback, useMemo, useState, useEffect } from "react";
 import { useDrop } from "react-dnd";

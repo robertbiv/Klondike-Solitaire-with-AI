@@ -1,14 +1,14 @@
 /**
- * Debug console for development and learning.
+ * Debug panel - shows you what's happening under the hood
  * 
- * Features:
- * - Shows live log of all game actions (moves, draws, AI reasoning)
- * - Test Win Screen button to preview win modal
- * - Clear Logs to reset the console
- * - Subscribes to debugLog events from game logic and AI
- * - Right-side sidebar (384px wide) with dark terminal aesthetic
+ * What you can do:
+ * - Watch live logs of everything (card moves, draws, AI thinking)
+ * - Test the win screen without actually finishing a game
+ * - Clear the logs when they get too messy
+ * - See exactly how the AI picks its moves
  * 
- * Toggle button is positioned bottom-left to avoid covering cards.
+ * Pops out from the right side when you click the bug button
+ * (button is in the bottom-left so it doesn't cover the cards)
  */
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../hooks/useGame.js';

@@ -1,8 +1,10 @@
-// Debug logging shared by components (UI) and game/AI logic.
-// How to use:
-// - UI: call setDebugLogger(fn) once to receive logs in your console/panel.
-// - Logic: call debugLog(message, data) anywhere to publish an event.
-// A short-window de-dupe helps filter duplicate logs in development.
+// Debug logging that works everywhere in the app
+// 
+// How to use it:
+// - From UI components: call setDebugLogger with your log function
+// - From anywhere else: just call debugLog(message, data) and it'll show up
+// 
+// Has built-in duplicate detection so you don't see the same log twice
 
 let debugLogCallback = null;
 let __lastLogSig = null;
@@ -17,16 +19,16 @@ const makeSig = (message, data) => {
 };
 
 /**
- * Register a single log handler used by the Debug UI.
- * Typically set once in a component with useEffect, and cleaned on unmount.
+ * Hook up your logging function (usually done once when DebugMenu opens)
+ * Gets cleared when the debug menu closes
  */
 export function setDebugLogger(callback) {
     debugLogCallback = callback;
 }
 
 /**
- * Publish a debug event to the registered handler.
- * Safe to call from anywhere (components, hooks, or pure logic files).
+ * Send a message to the debug console
+ * Works from components, hooks, or anywhere else in the code
  */
 export function debugLog(message, data) {
     const now = Date.now();

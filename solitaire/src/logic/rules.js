@@ -17,8 +17,8 @@ const rankAliases = RULES.rankAliases;
 const suitColors = RULES.suitColors;
 
 /**
- * Convert a card rank to its numeric value (ace=1, king=13, etc.).
- * Supports aliases like 'A' for ace, 'K' for king from rules.json.
+ * Turn card ranks into numbers (ace=1, king=13, etc.)
+ * Also handles shortcuts like 'A' for ace, 'K' for king
  */
 const rankToNumber = (r) => {
     if (r == null) return NaN;
@@ -31,8 +31,8 @@ const rankToNumber = (r) => {
 };
 
 /**
- * Determine card color ('red' or 'black') from suit.
- * Hearts and diamonds are red; clubs and spades are black.
+ * Figure out if a card is red or black based on its suit
+ * Hearts and diamonds = red, clubs and spades = black
  */
 const colorOf = (suit) => {
     if (!suit) return null;
@@ -41,11 +41,12 @@ const colorOf = (suit) => {
 };
 
 /**
- * Check if a card can be placed on a tableau column.
- * Klondike rules:
- * - Empty columns accept Kings only
- * - Must alternate colors (red/black)
- * - Must descend in rank (e.g., 7 on 8, Queen on King)
+ * Check if you can put a card on one of the 7 main columns
+ * 
+ * Rules:
+ * - Empty spots only take Kings
+ * - Colors have to alternate (red on black, black on red)
+ * - Ranks go down by 1 (like putting a 7 on an 8, or Queen on King)
  */
 export function canPlaceOnTableau(card, destinationCards) {
     if (!card) return false;
@@ -84,11 +85,12 @@ export function canPlaceOnTableau(card, destinationCards) {
 }
 
 /**
- * Check if a card can be placed on a foundation pile.
- * Foundation rules:
- * - Start with Ace
- * - Build up in same suit (Ace→2→3...→King)
- * - Cards must match suit of foundation pile
+ * Check if you can put a card on one of the 4 foundation piles
+ * 
+ * Rules:
+ * - Gotta start with an Ace
+ * - Then build up in order: Ace→2→3...→King
+ * - All cards in a pile must be the same suit
  */
 export function canPlaceOnFoundation(card, foundationCards) {
     if (!card) return false;

@@ -1,8 +1,8 @@
 /**
- * Drag-and-drop item types for react-dnd.
+ * Tells the drag-and-drop system what kind of things can be dragged
  * 
- * CARD: used by all draggable cards (tableau and waste).
- * Drop targets check the type to ensure only cards are accepted.
+ * Right now we only have one type: CARD
+ * This way the drop zones know to only accept cards (not random other stuff)
  */
 export const ItemTypes = {
   CARD: "CARD",

@@ -1,7 +1,7 @@
 /**
- * Create a standard 52-card deck.
- * Each card starts face-down and unassigned (no column/index yet).
- * Cards get unique IDs for React key prop stability.
+ * Make a standard 52-card deck (4 suits × 13 ranks)
+ * All cards start face-down and aren't assigned to any pile yet
+ * Each card gets a unique ID so React doesn't get confused
  */
 function makeDeck() {
     const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
@@ -17,8 +17,8 @@ function makeDeck() {
 }
 
 /**
- * Shuffle an array in place using Fisher-Yates algorithm.
- * Each position randomly swaps with a position before it.
+ * Shuffle the deck (Fisher-Yates shuffle - it's the legit way to randomize)
+ * Goes through each card and swaps it with a random earlier position
  */
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -29,12 +29,13 @@ function shuffle(a) {
 }
 
 /**
- * Initialize a fresh Klondike Solitaire game.
- * Returns the starting state:
- * - tableaus: 7 columns with 1,2,3...7 cards (only top card face-up)
- * - foundations: 4 empty piles (will build A→K by suit)
- * - stock: remaining cards (face-down draw pile)
- * - waste: empty (discarded cards from stock)
+ * Set up a new game of Klondike Solitaire
+ * 
+ * What you get back:
+ * - tableaus: the 7 columns with 1,2,3...7 cards (only the bottom one shows)
+ * - foundations: 4 empty spots where you'll build Ace→King by suit
+ * - stock: leftover cards you'll draw from (face-down pile)
+ * - waste: starts empty (where drawn cards go)
  */
 export function initGame() {
     const deck = shuffle(makeDeck());

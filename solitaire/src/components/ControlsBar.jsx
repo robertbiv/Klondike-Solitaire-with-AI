@@ -1,15 +1,15 @@
 /**
- * Game controls bar with buttons and AI hint display.
+ * The button bar and AI hint area
  * 
  * Buttons:
- * - Suggest Move: asks AI for best move and highlights it
- * - Do Suggested Move: executes the AI suggestion automatically
- * - Clear Highlight: removes suggestion highlight (enabled when suggestion exists)
- * - New Game: shuffles and starts fresh
+ * - "Suggest Move" - ask the AI what it thinks you should do
+ * - "Do Suggested Move" - let the AI actually make the move for you
+ * - "Clear Highlight" - turn off the glowing hints (shows up when AI has a suggestion)
+ * - "New Game" - shuffle everything and start over
  * 
- * Hint message:
- * - Shows AI's friendly explanation (which card to move where)
- * - Auto-clears when suggestion is cleared or applied
+ * The hint text:
+ * - Shows what the AI is suggesting in plain English
+ * - Disappears when you clear the hint or make the move
  */
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../hooks/useGame.js';

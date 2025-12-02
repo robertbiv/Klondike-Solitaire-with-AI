@@ -1,15 +1,14 @@
 /**
- * Individual card component with drag-and-drop support.
+ * A single card that you can drag around
  * 
- * Features:
- * - Renders card image (front if faceUp, back if face-down)
- * - Draggable only if face-up (canDrag checks rules)
- * - Purple ring when AI suggests moving this card (source highlight)
- * - Carries metadata (fromColumn, fromIndex, or fromWaste) for drop validation
+ * What it does:
+ * - Shows the card face if it's flipped, or the back if it's face-down
+ * - You can only drag it if it's face-up
+ * - Gets a purple glow when the AI says "move this one"
+ * - Remembers where it came from so the drop logic works
  * 
- * Card images:
- * - Expected in /public/cards/ as {rank}_of_{suit}.svg
- * - Falls back to back.png on error
+ * Card images live in /public/cards/ like "ace_of_hearts.svg"
+ * If an image is missing, it just shows the card back
  */
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from "../dndTypes.js";

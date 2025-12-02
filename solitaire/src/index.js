@@ -1,11 +1,12 @@
 /**
- * Application entry point.
+ * The very first file that runs when you load the app
  * 
- * Renders the root App component into the DOM.
- * React 18's createRoot enables concurrent features.
+ * What happens here:
+ * - Grabs the root div from index.html
+ * - Wraps everything in the drag-and-drop provider
+ * - Kicks off React and shows the game
  * 
- * Note: DndProvider is actually set up in App.jsx, not here.
- * This file just bootstraps React and loads global styles.
+ * The DndProvider here makes dragging cards work throughout the whole app
  */
 import React from "react";
 import ReactDOM from "react-dom/client";

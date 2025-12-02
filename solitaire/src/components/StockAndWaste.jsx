@@ -1,16 +1,16 @@
 /**
- * Stock and Waste piles side by side.
+ * The stock and waste piles (draw pile area)
  * 
- * Stock (left):
- * - Face-down draw pile
- * - Click to draw the next card to waste
- * - When empty, click to recycle waste back to stock
- * - Green ring when AI suggests drawing
+ * Stock pile (on the left):
+ * - Face-down cards you haven't seen yet
+ * - Click it to flip a card over to the waste pile
+ * - When it's empty, clicking recycles the waste pile back
+ * - Glows green when AI wants you to draw
  * 
- * Waste (right):
- * - Face-up discard pile from stock
- * - Only the top card is visible and draggable
- * - Can be moved to tableau or foundation
+ * Waste pile (on the right):
+ * - Shows the card you just drew
+ * - You can drag this card to columns or foundations
+ * - Only the top card shows (and that's the only one you can use)
  */
 import React from 'react';
 import { useGame } from '../hooks/useGame.js';
